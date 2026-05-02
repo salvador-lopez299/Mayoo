@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>31 días para ti, mi vida 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #d4a373; 
+      --secondary: #faedcd; 
+      --accent: #bc6c25; 
+      --bg: #fefae0; 
+      --text: #283618; 
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      padding-bottom: 50px;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .heart-bg {
+      position: absolute;
+      color: var(--primary);
+      opacity: 0.3;
+      animation: float 8s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    h1 { 
+      font-family: 'Dancing Script', cursive;
+      margin-top: 40px; 
+      font-size: 2.8rem; 
+      color: var(--accent);
+      padding: 0 15px;
+    }
+
+    .sub-t { 
+      font-weight: 600;
+      opacity: 0.7; 
+      margin-bottom: 30px; 
+      font-size: 1rem;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 12px;
+      max-width: 600px;
+      width: 92%;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--secondary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--accent);
+      border: 1px solid rgba(212, 163, 115, 0.2);
+    }
+
+    .day:not(.locked):hover {
+      transform: translateY(-5px);
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+    }
+
+    .passed { 
+      background: #e9edc9; 
+      opacity: 0.8;
+      color: #606c38;
+    }
+
+    .active-now {
+      background: white;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 15px rgba(188, 108, 37, 0.3);
+      animation: softPulse 2s infinite;
+    }
+
+    @keyframes softPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(188, 108, 37, 0.2); }
+    }
+
+    .locked { opacity: 0.25; cursor: not-allowed; background: #d1d5db; color: #6b7280; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(40, 54, 24, 0.4);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 35px;
+      border-radius: 30px;
+      max-width: 380px;
+      width: 100%;
+      border-bottom: 8px solid var(--primary);
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    #modal-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--accent); margin: 0 0 15px 0; }
+
+    .music-waves {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: 50px;
+    }
+
+    .wave { width: 4px; height: 12px; background: var(--primary); margin: 0 2px; border-radius: 10px; animation: wave-anim 0.8s infinite alternate; }
+    @keyframes wave-anim { from { height: 5px; } to { height: 20px; } }
+
+    .close-btn {
+      margin-top: 25px;
+      padding: 12px 35px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts" id="heart-container"></div>
+  <h1>✨ 31 momentos para Belencita ✨</h1>
+  <p class="sub-t">Porque eres especial en mi vida ❤️</p>
+
+  <div class="calendar" id="calendar"></div>
+  <audio id="player"></audio>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-text" style="line-height: 1.6; font-size: 1.1rem;"></p>
+      <div class="music-waves">
+        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+        <span style="margin-left: 12px; font-weight: 600; color: var(--accent); font-size: 0.85rem;">Escuchando tu sorpresa... 🎵</span>
+      </div>
+      <button class="close-btn" onclick="closeModal()">CERRAR CON AMOR</button>
+    </div>
+  </div>
+
+<script>
+
+  /* ==================================================================
+    BLOQUE DE CONTROL MANUAL (SÚPER IMPORTANTE BRO)
+    ==================================================================
+    Cambia el número de abajo cada día para que Belencita pueda 
+    ver el siguiente regalo. 
+    
+    Ejemplo: Si quieres abrir el día 3, pon: const diaDesbloqueado = 3;
+    ==================================================================
+  */
+
+  const diaDesbloqueado = 2; // <--- AQUÍ CAMBIAS EL DÍA QUE QUIERES LIBERAR
+
+  /* ==================================================================
+  */
+
+  const messages = {
+    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨Arme esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
+    2: "Hoy solo paso a decirte que me encantas. ✨ Tu sonrisa es mi parte favorita de cada día, y espero que sonrrias al ver esto jaja🌷",
+    3: "Me acordé de un momento juntos y sonreí solito. Tienes ese efecto en mí aunque no estés cerca. 💭",
+    4: "Eres de esas personas que llegan para cambiarlo todo para mejor. Eres luz pura. 💫",
+    5: "Me gusta tu forma de ser, así tal cual, sin filtros. Eres perfecta para mí. 🫶",
+    6: "Si tuviera que elegir un lugar favorito en el mundo, sería siempre donde estés tú. 🌍",
+    7: "Eres mi persona favorita. Así de simple, así de real. Te quiero muchísimo. 💕",
+    8: "Me haces feliz sin que te des cuenta, solo con existir. Que tengas un día increíble hoy. 😌",
+    9: "Me encanta hablar contigo de todo. Podría escucharte por horas y nunca me cansaría. 💬",
+    10: "Siempre logras sacarme una sonrisa, incluso en los días pesados. Gracias por ser así. 😄",
+    11: "Contigo todo es mejor. Las canciones suenan más bonito y los días tienen más color. 💖",
+    12: "Por si nadie te lo ha dicho hoy: eres increíble y estoy muy orgulloso de ti. 🌟",
+    13: "No sé cómo le haces, pero cada día me gustas un poquito más. Es magia pura. 😳",
+    14: "Eres única, Belencita. No hay nadie que se te compare, soy el más suertudo por tenerte. 💫",
+    15: "Mañana es un día muy especial para nosotros... ¿Ya estás lista? 👀",
+    16: "¡Felices 3 meses, amor! ❤️ 90 días de puras risas y momentos bellos. ¡Vamos por más! 🥂",
+    17: "Después de lo de ayer, lo confirmo: eres y seguirás siendo mi parte favorita. 💕",
+    18: "Me gusta estar contigo aunque no hagamos nada. Tu sola compañía me da paz. 😌",
+    19: "Eres muy importante para mí. Mucho más de lo que alcanzo a decir con palabras. 💌",
+    20: "Hoy mi único objetivo es intentar que sonrías al menos una vez. ¿Lo logré? 😄",
+    21: "Me gustas incluso en tus días raros. Ahí también te quiero un montón. 😜",
+    22: "Eres ese 'algo' que no sabía que necesitaba hasta que llegaste a mi vida. 💖",
+    23: "Me encanta presumirte. Le contaría a todo el mundo lo increíble que eres. 😌",
+    24: "Hoy desperté con muchísimas ganas de abrazarte y no soltarte. Te extraño mucho. 🤍",
+    25: "Contigo todo se siente real y bonito. Es la conexión más linda que he tenido. 💫",
+    26: "Gracias por existir, por cruzarte en mi camino y por decidir quedarte aquí conmigo. 🫶",
+    27: "¡Faltan solo 4 días para tu cumple! Ya se siente la emoción en el aire. 🎂",
+    28: "Me gustas mucho más de lo que alguna vez planeé. Me ganaste por completo. 😳",
+    29: "Eres inolvidable. Cada pequeño detalle tuyo se me queda grabado en la mente. 💭",
+    30: "¡Mañana es tu gran día! Descansa hoy, porque mañana festejamos con todo. 🎉",
+    31: "¡FELIZ CUMPLEAÑOS, AMOR! 🎂💖 El mundo es más lindo porque tú estás en él. ¡Te amo! 🥳"
+  };
+
+  function createSparkles() {
+    const container = document.getElementById('heart-container');
+    for (let i = 0; i < 30; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'heart-bg';
+      sparkle.innerHTML = '✦'; 
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.fontSize = (Math.random() * 15 + 10) + 'px';
+      sparkle.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      sparkle.style.animationDelay = Math.random() * 5 + 's';
+      container.appendChild(sparkle);
+    }
+  }
+  createSparkles();
+
+  const calendar = document.getElementById("calendar");
+  const player = document.getElementById('player');
+
+  for (let i = 1; i <= 31; i++) {
+    const day = document.createElement("div");
+    day.classList.add("day");
+    day.innerText = i;
+    if (i === diaDesbloqueado) { day.classList.add("active-now"); day.onclick = () => openDay(i); }
+    else if (i < diaDesbloqueado) { day.classList.add("passed"); day.onclick = () => openDay(i); }
+    else { day.classList.add("locked"); day.onclick = () => alert("Awuantala Belencita, vamos por días jaja ❤️"); }
+    calendar.appendChild(day);
+  }
+
+  function openDay(day) {
+    document.getElementById("modal-title").innerText = "Día " + day;
+    document.getElementById("modal-text").innerText = messages[day];
+    player.src = "cancion" + day + ".mp3";
+    player.play().catch(e => console.log("Audio no encontrado o bloqueado."));
+    document.getElementById("modal").style.display = "flex";
+  }
+
+  function closeModal() { document.getElementById("modal").style.display = "none"; player.pause(); player.currentTime = 0; }
+  window.onclick = function(e) { if (e.target == document.getElementById("modal")) closeModal(); }
+</script>
+</body>
+</html>
