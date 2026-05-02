@@ -12,7 +12,8 @@
       --secondary: #faedcd; 
       --accent: #bc6c25; 
       --bg: #fefae0; 
-      --text: #283618; 
+      --text: #283618;
+      --mexican-pink: #e4007c;
     }
 
     body {
@@ -26,7 +27,7 @@
       flex-direction: column;
       align-items: center;
       overflow-x: hidden;
-      padding-bottom: 50px;
+      padding-bottom: 80px;
     }
 
     .hearts {
@@ -57,12 +58,7 @@
       padding: 0 15px;
     }
 
-    .sub-t { 
-      font-weight: 600;
-      opacity: 0.7; 
-      margin-bottom: 30px; 
-      font-size: 1rem;
-    }
+    .sub-t { font-weight: 600; opacity: 0.7; margin-bottom: 30px; font-size: 1rem; }
 
     .calendar {
       display: grid;
@@ -98,11 +94,7 @@
       box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
     }
 
-    .passed { 
-      background: #e9edc9; 
-      opacity: 0.8;
-      color: #606c38;
-    }
+    .passed { background: #e9edc9; opacity: 0.8; color: #606c38; }
 
     .active-now {
       background: white;
@@ -118,15 +110,24 @@
 
     .locked { opacity: 0.25; cursor: not-allowed; background: #d1d5db; color: #6b7280; }
 
+    .envelope-container {
+      margin-top: 50px;
+      cursor: pointer;
+      animation: hoverFloat 3s ease-in-out infinite;
+      transition: transform 0.3s;
+    }
+    .envelope-icon { font-size: 4rem; color: var(--mexican-pink); filter: drop-shadow(0 5px 15px rgba(228, 0, 124, 0.3)); }
+    @keyframes hoverFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(40, 54, 24, 0.4);
+      background: rgba(40, 54, 24, 0.6);
       backdrop-filter: blur(5px);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 2000;
       padding: 20px;
     }
 
@@ -140,43 +141,43 @@
       animation: slideUp 0.4s ease-out;
     }
 
-    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+    .pink-border { border-bottom: 8px solid var(--mexican-pink) !important; }
     #modal-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--accent); margin: 0 0 15px 0; }
+    .pink-text { color: var(--mexican-pink) !important; }
+
+    .pass-input {
+      padding: 12px; width: 80%; border-radius: 15px; border: 2px solid var(--secondary);
+      margin-bottom: 15px; text-align: center; font-size: 1rem; outline: none;
+    }
 
     .music-waves {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 25px;
-      padding: 12px;
-      background: var(--bg);
-      border-radius: 50px;
+      display: flex; justify-content: center; align-items: center;
+      margin-top: 25px; padding: 12px; background: var(--bg); border-radius: 50px;
     }
 
     .wave { width: 4px; height: 12px; background: var(--primary); margin: 0 2px; border-radius: 10px; animation: wave-anim 0.8s infinite alternate; }
     @keyframes wave-anim { from { height: 5px; } to { height: 20px; } }
 
     .close-btn {
-      margin-top: 25px;
-      padding: 12px 35px;
-      border: none;
-      background: var(--accent);
-      color: white;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 700;
-      letter-spacing: 1px;
+      margin-top: 15px; padding: 12px 35px; border: none; background: var(--accent);
+      color: white; border-radius: 50px; cursor: pointer; font-weight: 700;
     }
+    .pink-btn { background: var(--mexican-pink) !important; }
   </style>
 </head>
 <body>
 
   <div class="hearts" id="heart-container"></div>
   <h1>✨ 31 momentos para Belencita ✨</h1>
-  <p class="sub-t">Porque eres especial en mi vida ❤️</p>
+  <p class="sub-t">Porque eres lo más especial en mi vida ❤️</p>
 
   <div class="calendar" id="calendar"></div>
+
+  <div class="envelope-container" onclick="openPasswordModal()">
+    <div class="envelope-icon">✉️</div>
+    <p style="color: var(--mexican-pink); font-weight: bold; margin-top: 5px;">Algo oculto para ti...</p>
+  </div>
+
   <audio id="player"></audio>
 
   <div class="modal" id="modal">
@@ -191,25 +192,58 @@
     </div>
   </div>
 
+  <div class="modal" id="password-modal">
+    <div class="modal-content pink-border">
+      <h2 id="modal-title" class="pink-text">¿Me conoces?</h2>
+      <p>Ingresa la contraseña para abrir el sobre:</p>
+      <input type="password" id="pass-field" class="pass-input" placeholder="Dato especial...">
+      <br>
+      <button class="close-btn pink-btn" onclick="verifyPassword()">ABRIR</button>
+      <button class="close-btn" style="background:#666;" onclick="closePasswordModal()">CANCELAR</button>
+    </div>
+  </div>
+
+  <div class="modal" id="secret-modal">
+    <div class="modal-content pink-border">
+      <h2 id="modal-title" class="pink-text">Para mi Belencita</h2>
+      <p id="secret-text" style="line-height: 1.6; font-style: italic;"></p>
+      <button class="close-btn pink-btn" onclick="closeSecretModal()">GUARDAR SECRETO</button>
+    </div>
+  </div>
+
 <script>
+  /******************************************************************
+   * *
+   * ↓↓↓ AQUÍ CAMBIAS EL DÍA DEL CALENDARIO (AVANZAR) ↓↓↓         *
+   * *
+   ******************************************************************/
+  
+  const diaDesbloqueado = 3; // <--- Cambia este 1 por el día de hoy
 
-  /* ==================================================================
-    BLOQUE DE CONTROL MANUAL (SÚPER IMPORTANTE BRO)
-    ==================================================================
-    Cambia el número de abajo cada día para que Belencita pueda 
-    ver el siguiente regalo. 
-    
-    Ejemplo: Si quieres abrir el día 3, pon: const diaDesbloqueado = 3;
-    ==================================================================
-  */
+  /******************************************************************
+   * *
+   * ↓↓↓ AQUÍ CAMBIAS LA CONTRASEÑA DEL SOBRE ROSA ↓↓↓           *
+   * *
+   ******************************************************************/
 
-  const diaDesbloqueado = 2; // <--- AQUÍ CAMBIAS EL DÍA QUE QUIERES LIBERAR
+  const passwordSecreto = "16"; // <--- Escribe la clave entre comillas
 
-  /* ==================================================================
-  */
+  /******************************************************************
+   * *
+   * ↓↓↓ AQUÍ ESCRIBES TU CARTA SECRETA DEL SOBRE ↓↓↓            *
+   * *
+   ******************************************************************/
+
+  const mensajeSecreto = "Eres lo mejor que me ha pasado. Gracias por estos 3 meses de pura felicidad. ¡Te amo Belencita!"; 
+
+  /******************************************************************
+   * *
+   * NO TOCAR NADA DE AQUÍ PARA ABAJO                     *
+   * *
+   ******************************************************************/
 
   const messages = {
-    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨Arme esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
+    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨ Decidí armar esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
     2: "Hoy solo paso a decirte que me encantas. ✨ Tu sonrisa es mi parte favorita de cada día, y espero que sonrrias al ver esto jaja🌷",
     3: "Me acordé de un momento juntos y sonreí solito. Tienes ese efecto en mí aunque no estés cerca. 💭",
     4: "Eres de esas personas que llegan para cambiarlo todo para mejor. Eres luz pura. 💫",
@@ -246,12 +280,10 @@
     const container = document.getElementById('heart-container');
     for (let i = 0; i < 30; i++) {
       const sparkle = document.createElement('div');
-      sparkle.className = 'heart-bg';
-      sparkle.innerHTML = '✦'; 
+      sparkle.className = 'heart-bg'; sparkle.innerHTML = '✦'; 
       sparkle.style.left = Math.random() * 100 + 'vw';
       sparkle.style.fontSize = (Math.random() * 15 + 10) + 'px';
       sparkle.style.animationDuration = (Math.random() * 4 + 5) + 's';
-      sparkle.style.animationDelay = Math.random() * 5 + 's';
       container.appendChild(sparkle);
     }
   }
@@ -262,8 +294,7 @@
 
   for (let i = 1; i <= 31; i++) {
     const day = document.createElement("div");
-    day.classList.add("day");
-    day.innerText = i;
+    day.classList.add("day"); day.innerText = i;
     if (i === diaDesbloqueado) { day.classList.add("active-now"); day.onclick = () => openDay(i); }
     else if (i < diaDesbloqueado) { day.classList.add("passed"); day.onclick = () => openDay(i); }
     else { day.classList.add("locked"); day.onclick = () => alert("Awuantala Belencita, vamos por días jaja ❤️"); }
@@ -274,12 +305,25 @@
     document.getElementById("modal-title").innerText = "Día " + day;
     document.getElementById("modal-text").innerText = messages[day];
     player.src = "cancion" + day + ".mp3";
-    player.play().catch(e => console.log("Audio no encontrado o bloqueado."));
+    player.play().catch(e => console.log("Audio no encontrado"));
     document.getElementById("modal").style.display = "flex";
   }
 
   function closeModal() { document.getElementById("modal").style.display = "none"; player.pause(); player.currentTime = 0; }
-  window.onclick = function(e) { if (e.target == document.getElementById("modal")) closeModal(); }
+  function openPasswordModal() { document.getElementById("password-modal").style.display = "flex"; }
+  function closePasswordModal() { document.getElementById("password-modal").style.display = "none"; }
+
+  function verifyPassword() {
+    if(document.getElementById("pass-field").value === passwordSecreto) {
+      closePasswordModal();
+      document.getElementById("secret-text").innerText = mensajeSecreto;
+      document.getElementById("secret-modal").style.display = "flex";
+    } else { alert("Nop... ese no es el dato.
+Pista--- 5 números"); }
+  }
+
+  function closeSecretModal() { document.getElementById("secret-modal").style.display = "none"; }
+  window.onclick = function(e) { if (e.target.className === "modal") { closeModal(); closePasswordModal(); closeSecretModal(); } }
 </script>
 </body>
 </html>
