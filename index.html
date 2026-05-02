@@ -26,58 +26,64 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow-x: hidden;
       padding-bottom: 80px;
     }
 
-    /* Fondo de destellos */
     .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
     .heart-bg { position: absolute; color: var(--primary); opacity: 0.3; animation: float 8s linear infinite; }
     @keyframes float { 0% { transform: translateY(105vh) scale(0.5); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
 
-    h1 { font-family: 'Dancing Script', cursive; margin-top: 40px; font-size: 2.8rem; color: var(--accent); padding: 0 15px; }
-    .sub-t { font-weight: 600; opacity: 0.7; margin-bottom: 30px; font-size: 1rem; }
+    h1 { font-family: 'Dancing Script', cursive; margin-top: 40px; font-size: 2.3rem; color: var(--accent); padding: 0 15px; }
+    .sub-t { font-weight: 600; opacity: 0.7; margin-bottom: 25px; font-size: 0.9rem; }
 
-    /* Calendario */
     .calendar {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-      gap: 12px; max-width: 600px; width: 92%; margin: 0 auto;
-      background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
+      gap: 10px; 
+      max-width: 500px; 
+      width: 90%; 
+      margin: 0 auto;
+      background: #ffffff; 
+      padding: 20px; 
+      border-radius: 20px; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
 
     .day {
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      border-radius: 12px; background: var(--secondary); font-weight: 600;
-      cursor: pointer; transition: all 0.3s ease; color: var(--accent); border: 1px solid rgba(212, 163, 115, 0.2);
+      aspect-ratio: 1; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      border-radius: 10px; 
+      background: var(--secondary); 
+      font-weight: 600;
+      cursor: pointer; 
+      transition: 0.3s; 
+      color: var(--accent); 
+      border: 1px solid rgba(212, 163, 115, 0.2);
     }
-    .day:not(.locked):hover { transform: translateY(-5px); background: var(--primary); color: white; }
-    .passed { background: #e9edc9; opacity: 0.8; color: #606c38; }
-    .active-now { background: white; border: 2px solid var(--accent); animation: softPulse 2s infinite; }
-    @keyframes softPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .locked { opacity: 0.25; cursor: not-allowed; background: #d1d5db; color: #6b7280; }
 
-    /* Modales */
+    .passed { background: #e9edc9; opacity: 0.8; color: #606c38; }
+    .active-now { background: white; border: 2.5px solid var(--accent); animation: softPulse 2s infinite; color: var(--accent); }
+    @keyframes softPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .locked { opacity: 0.2; cursor: not-allowed; background: #d1d5db; color: #6b7280; }
+
     .modal {
-      display: none; position: fixed; inset: 0; background: rgba(40, 54, 24, 0.6);
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
       backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 2000; padding: 20px;
     }
     .modal-content {
-      background: white; padding: 30px; border-radius: 30px; max-width: 380px; width: 100%;
-      border-bottom: 8px solid var(--primary); animation: slideUp 0.4s ease-out;
+      background: white; padding: 25px; border-radius: 25px; max-width: 350px; width: 100%;
+      border-bottom: 8px solid var(--primary);
     }
+    .modal-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; display: none; }
 
-    .modal-img {
-      width: 100%; max-height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 15px;
-      display: none; border: 3px solid var(--secondary);
-    }
-
-    /* Sobre Rosa */
     .envelope-container { margin-top: 40px; cursor: pointer; animation: hoverFloat 3s infinite; }
-    .envelope-icon { font-size: 4rem; color: var(--mexican-pink); filter: drop-shadow(0 5px 15px rgba(228, 0, 124, 0.3)); }
-    @keyframes hoverFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    .envelope-icon { font-size: 3.5rem; color: var(--mexican-pink); }
+    @keyframes hoverFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-    .pass-input { padding: 12px; width: 80%; border-radius: 15px; border: 2px solid var(--secondary); margin-bottom: 15px; text-align: center; outline: none; }
-    .close-btn { margin-top: 15px; padding: 12px 35px; border: none; background: var(--accent); color: white; border-radius: 50px; cursor: pointer; font-weight: 700; }
+    .pass-input { padding: 12px; width: 80%; border-radius: 12px; border: 1px solid var(--primary); margin-bottom: 15px; outline: none; font-size: 1rem; }
+    .close-btn { padding: 12px 30px; border: none; background: var(--accent); color: white; border-radius: 50px; cursor: pointer; font-weight: 700; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -90,59 +96,48 @@
 
   <div class="envelope-container" onclick="openPasswordModal()">
     <div class="envelope-icon">✉️</div>
-    <p style="color: var(--mexican-pink); font-weight: bold; margin-top: 5px;">Algo oculto para ti...</p>
+    <p style="color: var(--mexican-pink); font-weight: bold; font-size: 0.8rem; margin-top: 5px;">Algo oculto para ti...</p>
   </div>
 
   <audio id="player"></audio>
 
   <div class="modal" id="modal">
     <div class="modal-content">
-      <h2 id="modal-title" style="font-family:'Dancing Script'; color:var(--accent); font-size: 2.5rem; margin:0 0 10px 0;"></h2>
+      <h2 id="modal-title" style="font-family:'Dancing Script'; color:var(--accent); font-size: 2.2rem; margin:0 0 10px 0;"></h2>
       <img id="modal-img" class="modal-img" src="" alt="Momento">
-      <p id="modal-text" style="line-height: 1.6; font-size: 1.1rem;"></p>
-      <button class="close-btn" onclick="closeModal()">CERRAR CON AMOR</button>
+      <p id="modal-text" style="line-height: 1.5; font-size: 1.1rem;"></p>
+      <button class="close-btn" onclick="closeModal()">CERRAR</button>
     </div>
   </div>
 
   <div class="modal" id="password-modal">
     <div class="modal-content" style="border-color: var(--mexican-pink);">
       <h2 style="color: var(--mexican-pink); font-family:'Dancing Script';">¿Me conoces?</h2>
-      <p>Introduce la clave secreta:</p>
-      <input type="password" id="pass-field" class="pass-input" placeholder="Dato especial...">
-      <button class="close-btn" style="background:var(--mexican-pink);" onclick="verifyPassword()">ABRIR SOBRE</button>
+      <p>Ingresa el dato especial:</p>
+      <input type="password" id="pass-field" class="pass-input">
+      <button class="close-btn" style="background:var(--mexican-pink);" onclick="verifyPassword()">ABRIR</button>
     </div>
   </div>
 
   <div class="modal" id="secret-modal">
     <div class="modal-content" style="border-color: var(--mexican-pink);">
       <h2 style="color: var(--mexican-pink); font-family:'Dancing Script';">Para mi Belencita</h2>
-      <p id="secret-text" style="font-style: italic;"></p>
+      <p id="secret-text" style="font-style: italic; line-height: 1.6;"></p>
       <button class="close-btn" style="background:var(--mexican-pink);" onclick="closeSecretModal()">GUARDAR</button>
     </div>
   </div>
 
 <script>
   /******************************************************************
-   * *
-   * ↓↓↓   SECCIÓN DE CONTROL: AQUÍ CAMBIAS TODO EL REGALO   ↓↓↓    *
-   * *
+   * SECCIÓN DE CONTROL MANUAL                                      *
    ******************************************************************/
   
-  // 1. DÍA ACTUAL (Cambia este número para desbloquear el día de hoy)
-  const diaDesbloqueado = 1; 
-
-  // 2. CONTRASEÑA DEL SOBRE ROSA (Pon lo que quieras entre comillas)
-  const passwordSecreto = "16"; 
-
-  // 3. CARTA SECRETA (Lo que leerá al abrir el sobre)
-  const mensajeSecreto = "Eres lo mejor que me ha pasado. Gracias por estos 3 meses de pura felicidad. ¡Te amo Belencita!"; 
-
-  /******************************************************************
-   * ↓↓↓   LOS 31 MENSAJES DIARIOS                           ↓↓↓    *
-   ******************************************************************/
+  const diaDesbloqueado = 2; // <--- CAMBIA EL DÍA AQUÍ
+  const passwordSecreto = "16"; // <--- CONTRASEÑA DEL SOBRE
+  const mensajeSecreto = "Eres lo mejor que me ha pasado. ¡Te amo Belencita!"; 
 
   const messages = {
-    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨ Arme esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
+    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨ Decidí armar esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
     2: "Hoy solo paso a decirte que me encantas. ✨ Tu sonrisa es mi parte favorita de cada día, y espero que sonrrias al ver esto jaja🌷",
     3: "Me acordé de un momento juntos y sonreí solito. Tienes ese efecto en mí aunque no estés cerca. 💭",
     4: "Eres de esas personas que llegan para cambiarlo todo para mejor. Eres luz pura. 💫",
@@ -176,62 +171,69 @@
   };
 
   /******************************************************************
-   * LÓGICA DEL SISTEMA (NO TOCAR)                                  *
+   * LÓGICA DE FUNCIONAMIENTO                                       *
    ******************************************************************/
-
   const calendar = document.getElementById("calendar");
   const player = document.getElementById('player');
 
-  // Generar días
-  for (let i = 1; i <= 31; i++) {
-    const day = document.createElement("div");
-    day.classList.add("day"); day.innerText = i;
-    if (i === diaDesbloqueado) { day.classList.add("active-now"); day.onclick = () => openDay(i); }
-    else if (i < diaDesbloqueado) { day.classList.add("passed"); day.onclick = () => openDay(i); }
-    else { day.classList.add("locked"); day.onclick = () => alert("Awuantala Belencita, vamos por días jaja ❤️"); }
-    calendar.appendChild(day);
+  function init() {
+    for (let i = 1; i <= 31; i++) {
+      const day = document.createElement("div");
+      day.className = "day";
+      day.innerText = i;
+
+      if (i === diaDesbloqueado) {
+        day.classList.add("active-now");
+        day.onclick = () => openDay(i);
+      } else if (i < diaDesbloqueado) {
+        day.classList.add("passed");
+        day.onclick = () => openDay(i);
+      } else {
+        day.classList.add("locked");
+        day.onclick = () => alert("Awuantala Belencita, es de a uno jaja ❤️");
+      }
+      calendar.appendChild(day);
+    }
+    createSparkles();
   }
 
   function openDay(day) {
     document.getElementById("modal-title").innerText = "Día " + day;
     document.getElementById("modal-text").innerText = messages[day] || "Algo especial para ti... ❤️";
     
-    // Imagen
-    const imgElement = document.getElementById("modal-img");
-    imgElement.src = "imagen" + day + ".jpg";
-    imgElement.style.display = "block";
-    imgElement.onerror = function() { this.style.display = "none"; };
+    const img = document.getElementById("modal-img");
+    img.src = "imagen" + day + ".jpg";
+    img.style.display = "block";
+    img.onerror = () => img.style.display = "none";
 
-    // Audio
     player.src = "cancion" + day + ".mp3";
-    player.play().catch(e => console.log("Audio pausado o no encontrado"));
-
+    player.play().catch(() => console.log("Audio bloqueado"));
     document.getElementById("modal").style.display = "flex";
   }
 
-  function closeModal() { document.getElementById("modal").style.display = "none"; player.pause(); player.currentTime = 0; }
+  function closeModal() { document.getElementById("modal").style.display = "none"; player.pause(); }
   function openPasswordModal() { document.getElementById("password-modal").style.display = "flex"; }
   function closePasswordModal() { document.getElementById("password-modal").style.display = "none"; }
-
   function verifyPassword() {
     if(document.getElementById("pass-field").value === passwordSecreto) {
-      document.getElementById("password-modal").style.display = "none";
+      closePasswordModal();
       document.getElementById("secret-text").innerText = mensajeSecreto;
       document.getElementById("secret-modal").style.display = "flex";
-    } else { alert("Nop... ese no es el dato. 😊"); }
+    } else { alert("Nop..."); }
   }
-
   function closeSecretModal() { document.getElementById("secret-modal").style.display = "none"; }
 
-  // Brillos
-  const container = document.getElementById('heart-container');
-  for (let i = 0; i < 30; i++) {
-    const s = document.createElement('div'); s.className = 'heart-bg'; s.innerHTML = '✦'; 
-    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDuration = (Math.random() * 5 + 5) + 's';
-    container.appendChild(s);
+  function createSparkles() {
+    const container = document.getElementById('heart-container');
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement('div'); s.className = 'heart-bg'; s.innerHTML = '✦'; 
+      s.style.left = Math.random() * 100 + 'vw'; s.style.animationDuration = (Math.random() * 5 + 4) + 's';
+      container.appendChild(s);
+    }
   }
 
-  window.onclick = function(e) { if (e.target.className === "modal") { closeModal(); closePasswordModal(); closeSecretModal(); } }
+  window.onload = init;
+  window.onclick = (e) => { if (e.target.className === "modal") { closeModal(); closePasswordModal(); closeSecretModal(); } };
 </script>
 </body>
 </html>
