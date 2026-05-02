@@ -30,139 +30,54 @@
       padding-bottom: 80px;
     }
 
-    .hearts {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
+    /* Fondo de destellos */
+    .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    .heart-bg { position: absolute; color: var(--primary); opacity: 0.3; animation: float 8s linear infinite; }
+    @keyframes float { 0% { transform: translateY(105vh) scale(0.5); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
 
-    .heart-bg {
-      position: absolute;
-      color: var(--primary);
-      opacity: 0.3;
-      animation: float 8s linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
-      50% { opacity: 0.5; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-    }
-
-    h1 { 
-      font-family: 'Dancing Script', cursive;
-      margin-top: 40px; 
-      font-size: 2.8rem; 
-      color: var(--accent);
-      padding: 0 15px;
-    }
-
+    h1 { font-family: 'Dancing Script', cursive; margin-top: 40px; font-size: 2.8rem; color: var(--accent); padding: 0 15px; }
     .sub-t { font-weight: 600; opacity: 0.7; margin-bottom: 30px; font-size: 1rem; }
 
+    /* Calendario */
     .calendar {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-      gap: 12px;
-      max-width: 600px;
-      width: 92%;
-      margin: 0 auto;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 12px; max-width: 600px; width: 92%; margin: 0 auto;
+      background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
 
     .day {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      background: var(--secondary);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: var(--accent);
-      border: 1px solid rgba(212, 163, 115, 0.2);
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 12px; background: var(--secondary); font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease; color: var(--accent); border: 1px solid rgba(212, 163, 115, 0.2);
     }
-
-    .day:not(.locked):hover {
-      transform: translateY(-5px);
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
-    }
-
+    .day:not(.locked):hover { transform: translateY(-5px); background: var(--primary); color: white; }
     .passed { background: #e9edc9; opacity: 0.8; color: #606c38; }
-
-    .active-now {
-      background: white;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 15px rgba(188, 108, 37, 0.3);
-      animation: softPulse 2s infinite;
-    }
-
-    @keyframes softPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(188, 108, 37, 0.2); }
-    }
-
+    .active-now { background: white; border: 2px solid var(--accent); animation: softPulse 2s infinite; }
+    @keyframes softPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .locked { opacity: 0.25; cursor: not-allowed; background: #d1d5db; color: #6b7280; }
 
-    .envelope-container {
-      margin-top: 50px;
-      cursor: pointer;
-      animation: hoverFloat 3s ease-in-out infinite;
-      transition: transform 0.3s;
+    /* Modales */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(40, 54, 24, 0.6);
+      backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 2000; padding: 20px;
     }
+    .modal-content {
+      background: white; padding: 30px; border-radius: 30px; max-width: 380px; width: 100%;
+      border-bottom: 8px solid var(--primary); animation: slideUp 0.4s ease-out;
+    }
+
+    .modal-img {
+      width: 100%; max-height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 15px;
+      display: none; border: 3px solid var(--secondary);
+    }
+
+    /* Sobre Rosa */
+    .envelope-container { margin-top: 40px; cursor: pointer; animation: hoverFloat 3s infinite; }
     .envelope-icon { font-size: 4rem; color: var(--mexican-pink); filter: drop-shadow(0 5px 15px rgba(228, 0, 124, 0.3)); }
     @keyframes hoverFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(40, 54, 24, 0.6);
-      backdrop-filter: blur(5px);
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 35px;
-      border-radius: 30px;
-      max-width: 380px;
-      width: 100%;
-      border-bottom: 8px solid var(--primary);
-      animation: slideUp 0.4s ease-out;
-    }
-
-    .pink-border { border-bottom: 8px solid var(--mexican-pink) !important; }
-    #modal-title { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--accent); margin: 0 0 15px 0; }
-    .pink-text { color: var(--mexican-pink) !important; }
-
-    .pass-input {
-      padding: 12px; width: 80%; border-radius: 15px; border: 2px solid var(--secondary);
-      margin-bottom: 15px; text-align: center; font-size: 1rem; outline: none;
-    }
-
-    .music-waves {
-      display: flex; justify-content: center; align-items: center;
-      margin-top: 25px; padding: 12px; background: var(--bg); border-radius: 50px;
-    }
-
-    .wave { width: 4px; height: 12px; background: var(--primary); margin: 0 2px; border-radius: 10px; animation: wave-anim 0.8s infinite alternate; }
-    @keyframes wave-anim { from { height: 5px; } to { height: 20px; } }
-
-    .close-btn {
-      margin-top: 15px; padding: 12px 35px; border: none; background: var(--accent);
-      color: white; border-radius: 50px; cursor: pointer; font-weight: 700;
-    }
-    .pink-btn { background: var(--mexican-pink) !important; }
+    .pass-input { padding: 12px; width: 80%; border-radius: 15px; border: 2px solid var(--secondary); margin-bottom: 15px; text-align: center; outline: none; }
+    .close-btn { margin-top: 15px; padding: 12px 35px; border: none; background: var(--accent); color: white; border-radius: 50px; cursor: pointer; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -182,68 +97,52 @@
 
   <div class="modal" id="modal">
     <div class="modal-content">
-      <h2 id="modal-title"></h2>
+      <h2 id="modal-title" style="font-family:'Dancing Script'; color:var(--accent); font-size: 2.5rem; margin:0 0 10px 0;"></h2>
+      <img id="modal-img" class="modal-img" src="" alt="Momento">
       <p id="modal-text" style="line-height: 1.6; font-size: 1.1rem;"></p>
-      <div class="music-waves">
-        <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-        <span style="margin-left: 12px; font-weight: 600; color: var(--accent); font-size: 0.85rem;">Escuchando tu sorpresa... 🎵</span>
-      </div>
       <button class="close-btn" onclick="closeModal()">CERRAR CON AMOR</button>
     </div>
   </div>
 
   <div class="modal" id="password-modal">
-    <div class="modal-content pink-border">
-      <h2 id="modal-title" class="pink-text">¿Me conoces?</h2>
-      <p>Ingresa la contraseña para abrir el sobre:</p>
+    <div class="modal-content" style="border-color: var(--mexican-pink);">
+      <h2 style="color: var(--mexican-pink); font-family:'Dancing Script';">¿Me conoces?</h2>
+      <p>Introduce la clave secreta:</p>
       <input type="password" id="pass-field" class="pass-input" placeholder="Dato especial...">
-      <br>
-      <button class="close-btn pink-btn" onclick="verifyPassword()">ABRIR</button>
-      <button class="close-btn" style="background:#666;" onclick="closePasswordModal()">CANCELAR</button>
+      <button class="close-btn" style="background:var(--mexican-pink);" onclick="verifyPassword()">ABRIR SOBRE</button>
     </div>
   </div>
 
   <div class="modal" id="secret-modal">
-    <div class="modal-content pink-border">
-      <h2 id="modal-title" class="pink-text">Para mi Belencita</h2>
-      <p id="secret-text" style="line-height: 1.6; font-style: italic;"></p>
-      <button class="close-btn pink-btn" onclick="closeSecretModal()">GUARDAR SECRETO</button>
+    <div class="modal-content" style="border-color: var(--mexican-pink);">
+      <h2 style="color: var(--mexican-pink); font-family:'Dancing Script';">Para mi Belencita</h2>
+      <p id="secret-text" style="font-style: italic;"></p>
+      <button class="close-btn" style="background:var(--mexican-pink);" onclick="closeSecretModal()">GUARDAR</button>
     </div>
   </div>
 
 <script>
   /******************************************************************
    * *
-   * ↓↓↓ AQUÍ CAMBIAS EL DÍA DEL CALENDARIO (AVANZAR) ↓↓↓         *
+   * ↓↓↓   SECCIÓN DE CONTROL: AQUÍ CAMBIAS TODO EL REGALO   ↓↓↓    *
    * *
    ******************************************************************/
   
-  const diaDesbloqueado = 3; // <--- Cambia este 1 por el día de hoy
+  // 1. DÍA ACTUAL (Cambia este número para desbloquear el día de hoy)
+  const diaDesbloqueado = 1; 
 
-  /******************************************************************
-   * *
-   * ↓↓↓ AQUÍ CAMBIAS LA CONTRASEÑA DEL SOBRE ROSA ↓↓↓           *
-   * *
-   ******************************************************************/
+  // 2. CONTRASEÑA DEL SOBRE ROSA (Pon lo que quieras entre comillas)
+  const passwordSecreto = "16"; 
 
-  const passwordSecreto = "16"; // <--- Escribe la clave entre comillas
-
-  /******************************************************************
-   * *
-   * ↓↓↓ AQUÍ ESCRIBES TU CARTA SECRETA DEL SOBRE ↓↓↓            *
-   * *
-   ******************************************************************/
-
+  // 3. CARTA SECRETA (Lo que leerá al abrir el sobre)
   const mensajeSecreto = "Eres lo mejor que me ha pasado. Gracias por estos 3 meses de pura felicidad. ¡Te amo Belencita!"; 
 
   /******************************************************************
-   * *
-   * NO TOCAR NADA DE AQUÍ PARA ABAJO                     *
-   * *
+   * ↓↓↓   LOS 31 MENSAJES DIARIOS                           ↓↓↓    *
    ******************************************************************/
 
   const messages = {
-    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨ Decidí armar esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
+    1: "¡Bienvenida a tu mes, puchurrupuchi! ✨ Arme esto porque quiero que cada día recuerdes lo especial que eres para mí. ❤️",
     2: "Hoy solo paso a decirte que me encantas. ✨ Tu sonrisa es mi parte favorita de cada día, y espero que sonrrias al ver esto jaja🌷",
     3: "Me acordé de un momento juntos y sonreí solito. Tienes ese efecto en mí aunque no estés cerca. 💭",
     4: "Eres de esas personas que llegan para cambiarlo todo para mejor. Eres luz pura. 💫",
@@ -276,22 +175,14 @@
     31: "¡FELIZ CUMPLEAÑOS, AMOR! 🎂💖 El mundo es más lindo porque tú estás en él. ¡Te amo! 🥳"
   };
 
-  function createSparkles() {
-    const container = document.getElementById('heart-container');
-    for (let i = 0; i < 30; i++) {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'heart-bg'; sparkle.innerHTML = '✦'; 
-      sparkle.style.left = Math.random() * 100 + 'vw';
-      sparkle.style.fontSize = (Math.random() * 15 + 10) + 'px';
-      sparkle.style.animationDuration = (Math.random() * 4 + 5) + 's';
-      container.appendChild(sparkle);
-    }
-  }
-  createSparkles();
+  /******************************************************************
+   * LÓGICA DEL SISTEMA (NO TOCAR)                                  *
+   ******************************************************************/
 
   const calendar = document.getElementById("calendar");
   const player = document.getElementById('player');
 
+  // Generar días
   for (let i = 1; i <= 31; i++) {
     const day = document.createElement("div");
     day.classList.add("day"); day.innerText = i;
@@ -303,9 +194,18 @@
 
   function openDay(day) {
     document.getElementById("modal-title").innerText = "Día " + day;
-    document.getElementById("modal-text").innerText = messages[day];
+    document.getElementById("modal-text").innerText = messages[day] || "Algo especial para ti... ❤️";
+    
+    // Imagen
+    const imgElement = document.getElementById("modal-img");
+    imgElement.src = "imagen" + day + ".jpg";
+    imgElement.style.display = "block";
+    imgElement.onerror = function() { this.style.display = "none"; };
+
+    // Audio
     player.src = "cancion" + day + ".mp3";
-    player.play().catch(e => console.log("Audio no encontrado"));
+    player.play().catch(e => console.log("Audio pausado o no encontrado"));
+
     document.getElementById("modal").style.display = "flex";
   }
 
@@ -315,14 +215,22 @@
 
   function verifyPassword() {
     if(document.getElementById("pass-field").value === passwordSecreto) {
-      closePasswordModal();
+      document.getElementById("password-modal").style.display = "none";
       document.getElementById("secret-text").innerText = mensajeSecreto;
       document.getElementById("secret-modal").style.display = "flex";
-    } else { alert("Nop... ese no es el dato.
-Pista--- 5 números"); }
+    } else { alert("Nop... ese no es el dato. 😊"); }
   }
 
   function closeSecretModal() { document.getElementById("secret-modal").style.display = "none"; }
+
+  // Brillos
+  const container = document.getElementById('heart-container');
+  for (let i = 0; i < 30; i++) {
+    const s = document.createElement('div'); s.className = 'heart-bg'; s.innerHTML = '✦'; 
+    s.style.left = Math.random() * 100 + 'vw'; s.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    container.appendChild(s);
+  }
+
   window.onclick = function(e) { if (e.target.className === "modal") { closeModal(); closePasswordModal(); closeSecretModal(); } }
 </script>
 </body>
